@@ -50,7 +50,7 @@ driver = None
 _LAST_EMAIL = None
 _LAST_PASSWORD = None
 
-def jitter_sleep(base_seconds):
+def jitter_sleep(base_seconds): #“There are helper functions to make the scraping smoother:
     time.sleep(base_seconds + random.uniform(0.3, 1.2))
 
 def create_driver(proxy_url=None, headless=False, user_agent=DEFAULT_USER_AGENT):
@@ -169,26 +169,26 @@ def _scroll_into_view(css_selector):
     except Exception:
         pass
 
-def _expand_about_if_collapsed():
-    # Try common variants of the "show more" button in About
-    candidates = [
-        (By.CSS_SELECTOR, "section[id^='about'] button[aria-label*='more']"),
-        (By.CSS_SELECTOR, "section[id*='about'] button[aria-label*='more']"),
-        (By.XPATH, "//section[contains(@id,'about')]//button[contains(@aria-label,'more')]"),
-        (By.XPATH, "//section[contains(@id,'about')]//button[contains(text(),'more')]"),
-        (By.CSS_SELECTOR, "section[id*='about'] button[class*='inline-show-more-text']"),
-    ]
-    for by, sel in candidates:
-        try:
-            btn = driver.find_element(by, sel)
-            if btn.is_displayed():
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                jitter_sleep(0.5)
-                driver.execute_script("arguments[0].click();", btn)
-                jitter_sleep(1.5)
-                break
-        except Exception:
-            continue
+# def _expand_about_if_collapsed():
+#     # Try common variants of the "show more" button in About
+#     candidates = [
+#         (By.CSS_SELECTOR, "section[id^='about'] button[aria-label*='more']"),
+#         (By.CSS_SELECTOR, "section[id*='about'] button[aria-label*='more']"),
+#         (By.XPATH, "//section[contains(@id,'about')]//button[contains(@aria-label,'more')]"),
+#         (By.XPATH, "//section[contains(@id,'about')]//button[contains(text(),'more')]"),
+#         (By.CSS_SELECTOR, "section[id*='about'] button[class*='inline-show-more-text']"),
+#     ]
+#     for by, sel in candidates:
+#         try:
+#             btn = driver.find_element(by, sel)
+#             if btn.is_displayed():
+#                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+#                 jitter_sleep(0.5)
+#                 driver.execute_script("arguments[0].click();", btn)
+#                 jitter_sleep(1.5)
+#                 break
+#         except Exception:
+#             continue
 
 def scrape_profile(url):
     print(f"\n=== Starting Profile Scrape: {url} ===")
@@ -286,6 +286,9 @@ def scrape_profile(url):
         print(f"     ✓ Found headline: {data['headline']}")
     else:
         print("     ⚠ Could not find headline")
+        
+        
+        
     # Location scraping disabled per request
     # data["location"] = ""
     # # About scraping disabled per request

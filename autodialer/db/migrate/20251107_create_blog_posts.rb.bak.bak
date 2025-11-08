@@ -1,0 +1,13 @@
+class CreateBlogPosts < ActiveRecord::Migration[7.0]
+    def change
+      create_table :blog_posts do |t|
+        t.string :title, null: false
+        t.text   :body,  null: false
+        t.string :source, default: "ai"
+        t.string :slug, index: true
+        t.timestamps
+      end
+      add_index :blog_posts, :created_at
+    end
+  end
+  

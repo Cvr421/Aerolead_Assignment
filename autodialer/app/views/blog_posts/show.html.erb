@@ -1,0 +1,8 @@
+<article>
+  <h1><%= @post.title %></h1>
+  <small>Source: <%= @post.source %> • <%= @post.created_at.strftime("%Y-%m-%d") %></small>
+  <div class="article-body">
+    <%= raw @post.body %>
+  </div>
+  <p><a href="<%= blog_posts_path %>">Back to blog</a></p>
+</article>

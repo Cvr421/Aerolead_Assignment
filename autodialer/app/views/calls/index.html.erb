@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Autodialer — Demo</title>
+  <style>
+    body{font-family: Arial, sans-serif;margin:20px}
+    textarea{width:100%;height:120px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    table th, table td{border:1px solid #ddd;padding:8px}
+    .btn{display:inline-block;background:#007bff;color:#fff;padding:8px 10px;border-radius:4px;text-decoration:none}
+  </style>
+</head>
+<body>
+  <h1>Autodialer</h1>
+
+  <section>
+    <h2>Upload / Paste numbers (max 100 per upload)</h2>
+    <%= form_with url: upload_calls_path, local: true, multipart: true do |f| %>
+      <div>
+        <label>Paste numbers (one per line)</label><br/>
+        <%= text_area_tag :numbers, nil, placeholder: "e.g. 9123456789 or +919123456789 or 09123456789" %>
+      </div>
+      <div>
+        <label>Or upload .txt / .csv</label>
+        <%= file_field_tag :file %>
+      </div>
+      <div style="margin-top:8px">
+        <%= submit_tag "Upload", class: "btn" %>
+      </div>
+    <% end %>
+  </section>
+
+  <section style="margin-top:20px">
+    <h2>Start batch</h2>
+    <%= form_with url: start_batch_calls_path, method: :post, local: true do |f| %>
+      <div>
+        <label>Message to speak:</label><br/>
+        <%= text_field_tag :message, "Hello, this is a demo call from Autodialer." , style: "width:100%" %>
+      </div>
+      <div style="margin-top:8px">
+        <%= submit_tag "Start Calls (pending / failed)", class: "btn" %>
+      </div>
+    <% end %>
+  </section>
+
+  <section style="margin-top:20px">
+    <h2>AI Prompt</h2>
+    <p>Try: <em>make a call to 18001234567 and say "Hello, test"</em></p>
+    <%= form_with url: ai_prompt_calls_path, method: :post, local: true do |f| %>
+      <%= text_area_tag :prompt, nil, placeholder: "Type here..." %><br/>
+      <%= submit_tag "Send Prompt", class: "btn" %>
+    <% end %>
+  </section>
+
+  <section style="margin-top:20px">
+    <h2>Recent numbers & logs</h2>
+    <table>
+      <thead><tr><th>Number</th><th>Status</th><th>Last log</th><th>Updated</th></tr></thead>
+      <tbody>
+        <% @numbers.each do |n| %>
+          <tr>
+            <td><%= n.number %></td>
+            <td><%= n.status %></td>
+            <td style="max-width:400px; white-space:pre-wrap;"><%= n.last_log %></td>
+            <td><%= n.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+
+  <section style="margin-top:20px">
+    <h2>Sidekiq (jobs)</h2>
+    <p>Go to <a href="/sidekiq" target="_blank">/sidekiq</a> to see job status (dev only).</p>
+  </section>
+
+</body>
+</html>

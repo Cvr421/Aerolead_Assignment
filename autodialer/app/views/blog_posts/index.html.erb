@@ -1,0 +1,10 @@
+<h1>Blog</h1>
+<p><a href="/blog/generate_ui">Generate articles (AI)</a></p>
+
+<% @posts.each do |p| %>
+  <article style="border-bottom:1px solid #eee;padding:12px 0">
+    <h2><a href="<%= blog_post_path(p.slug || p.id) %>"><%= p.title %></a></h2>
+    <small>Source: <%= p.source %> • <%= p.created_at.strftime("%Y-%m-%d") %></small>
+    <p><%= truncate(strip_tags(p.body), length: 300) %></p>
+  </article>
+<% end %>

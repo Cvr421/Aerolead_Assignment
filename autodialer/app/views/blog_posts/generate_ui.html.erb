@@ -1,0 +1,16 @@
+<h1>AI Blog Generator</h1>
+<p>Paste titles (one per line). Optional: add a short detail after a pipe `|` to guide generation, e.g. <em>Designing REST APIs | target: Java</em></p>
+
+<%= form_with url: '/blog/generate', method: :post, local: true do |f| %>
+  <div>
+    <%= label_tag :titles, "Titles (one per line)" %><br/>
+    <%= text_area_tag :titles, "", rows: 12, style: "width:100%" %>
+  </div>
+  <div style="margin-top:8px">
+    <%= label_tag :word_count, "Approx. words per article" %>
+    <%= number_field_tag :word_count, 600, min: 200, max: 2000 %>
+  </div>
+  <div style="margin-top:8px">
+    <%= submit_tag "Generate", class: "btn btn-primary" %>
+  </div>
+<% end %>
