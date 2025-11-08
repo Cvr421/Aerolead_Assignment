@@ -7,7 +7,7 @@ This project logs into LinkedIn using Selenium and scrapes basic profile info fr
 1) Create a virtualenv and install deps:
 
 ```bash
-cd /home/chandravijay/space/Aerolead-Assignments
+cd "file location"
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
